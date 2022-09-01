@@ -1,13 +1,11 @@
-from email.policy import default
+from django.contrib.auth.models import User, Group
 from .models import Todo
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from rest_framework import serializers
 
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['id', 'first_name', 'last_name', 'username', 'email']
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'username', 'email']
 
 class TodoSerializer(serializers.HyperlinkedModelSerializer):
     # user = UserSerializer()
