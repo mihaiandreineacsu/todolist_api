@@ -17,8 +17,8 @@ class TodoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]# [permissions.IsAuthenticated]
 
     def create(self, request):
-        todo = Todo.objects.create(title=request.POST.get('title', ''),
-            description=request.POST.get('description', ''),
+        todo = Todo.objects.create(title=request.data.get('title', ''),
+            description=request.data.get('description', ''),
             user=request.user,)
         serialized_obj = serializers.serialize('json', [todo,])
         return HttpResponse(serialized_obj, content_type='application/json')
