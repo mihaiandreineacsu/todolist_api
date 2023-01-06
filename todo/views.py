@@ -2,10 +2,16 @@
 from django.http import HttpResponse
 from django.core import serializers
 
-from .models import Todo
-from .serializers import TodoSerializer
+from .models import Todo, User
+from .serializers import TodoSerializer, UserSerializer
 
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, generics, mixins
+
+
+class UsersViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 # Create your views here.
 class TodoViewSet(viewsets.ModelViewSet):
@@ -14,7 +20,7 @@ class TodoViewSet(viewsets.ModelViewSet):
     """
     queryset = Todo.objects.all().order_by('-created_at')
     serializer_class = TodoSerializer
-    permission_classes = [permissions.AllowAny]# [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated] # [permissions.AllowAny]
 
     def create(self, request):
         todo = Todo.objects.create(title=request.data.get('title', ''),

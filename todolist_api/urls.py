@@ -17,12 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from todo.views import TodoViewSet
+from todo.views import TodoViewSet, UsersViewSet
 
 router = routers.DefaultRouter()
 router.register(r'todos', TodoViewSet)
+router.register(r'users', UsersViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    # path('users/', ListUsers.as_view(), name="users"),
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
